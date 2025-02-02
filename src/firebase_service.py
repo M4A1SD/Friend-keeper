@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 from src.time_service import TimeService
+from datetime import datetime
 
 
 class FirebaseService:
@@ -110,8 +111,18 @@ class FirebaseService:
         for friend in friends:
             last_entry_date = self.get_when_last_talked(friend)
             friends_dict[friend] = last_entry_date
-
-        sorted_friends = sorted(friends_dict.items(), key=lambda x: x[1], reverse=True)
-        for friend in sorted_friends:
-            names_array.append(friend[0])
+        """
+        friends_dict = {
+            'benny' : {'date': '02-02-2025 20:48:26', 'data': {'timestamp': DatetimeWithNanoseconds(2025, 2, 2, 18, 48, 27, 913000, tzinfo=datetime.timezone.utc), 'data': [beny likes... , beny ...]}},
+            'lior' : {'date': '02-02-2025 20:48:26', 'data': {'timestamp': DatetimeWithNanoseconds(2025, 2, 2, 18, 48, 27, 913000, tzinfo=datetime.timezone.utc), 'data': [lior likes... , lior ...]}},
+            'niko' : {'date': '02-02-2025 20:48:26', 'data': {'timestamp': DatetimeWithNanoseconds(2025, 2, 2, 18, 48, 27, 913000, tzinfo=datetime.timezone.utc), 'data': [niko likes... , niko ...]}},
+        }
+        """
+        sorted_data = dict(sorted(
+            friends_dict.items(),
+            key=lambda item: datetime.strptime(item[1]['date'], '%d-%m-%Y %H:%M:%S')
+        ))
+        print("sorted_data", sorted_data)
+        for friend in sorted_data:
+            names_array.append(friend)
         return names_array
