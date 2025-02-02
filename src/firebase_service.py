@@ -36,8 +36,16 @@ class FirebaseService:
             return False
 
     def get_all_friends(self):
+        """
+        return names ['niko', 'benny', 'lior']
+        """
         try:
-            return self.db.collection("friends").get()
+            friends = self.db.collection("friends").stream()
+            names_array = []
+            for friend in friends:
+                names_array.append(friend.id)
+            return names_array
+
         except Exception as e:
             print("failed to get all friends")
             print(e)
@@ -71,6 +79,9 @@ class FirebaseService:
             return None
     
     def get_when_last_talked(self, friend_name):
+        """
+        return the date "2025-01-01 12:23"
+        """
         try:
             entries_ref = self.db.collection("friends").document(friend_name).collection("entries")
             latest_entry_query = entries_ref.order_by("timestamp", direction=firestore.Query.DESCENDING).limit(1)
@@ -88,3 +99,19 @@ class FirebaseService:
             print(e)
             return None
 
+    def get_sorted_friends(self):
+        """
+        return names ['niko', 'benny', 'lior']
+        in order of last entry date
+        """
+        names_array = []
+        friends_dict = {}
+        friends = self.get_all_friends()
+        for friend in friends:
+            last_entry_date = self.get_when_last_talked(friend)
+            friends_dict[friend] = last_entry_date
+
+        sorted_friends = sorted(friends_dict.items(), key=lambda x: x[1], reverse=True)
+        for friend in sorted_friends:
+            names_array.append(friend[0])
+        return names_array

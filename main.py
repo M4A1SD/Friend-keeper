@@ -15,7 +15,21 @@ def main():
     if choice == "1":
         menu_service.handle_new_entry(gemini_service, prompts_dictionary, firebase_service)
     elif choice == "2":
-        print("Im free for action")
+        """
+        i can look up all my friends
+        the list is sorted by the last entry date
+        i can select a friend, lets say type the name
+        then i get 5 questions about recent entry-follow up
+        5 meetup ideas to propose.
+        """
+        # Im free for action
+
+        friends = firebase_service.get_sorted_friends()
+        print(friends)
+
+
+
+
     elif choice == "3":
         print("Add new friend")
     else:
