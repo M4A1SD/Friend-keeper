@@ -11,8 +11,8 @@ class GeminiService:
         response = self.model.generate_content(prompt)
         return response
 
-    def break_down_information(self, information, prompt_template, current_time):
-        prompt = f"Rules:{prompt_template}\nInput:{information}\nCurrent time:{current_time}"
+    def break_down_information(self, information, prompt_template):
+        prompt = f"Rules:{prompt_template}\nInput:{information}"
         response = self.model.generate_content(prompt)
         
         try:
@@ -24,8 +24,8 @@ class GeminiService:
             response_text = response_text.strip()
             
             response_json = json.loads(response_text)
-            print("Parsed JSON response:", json.dumps(response_json, indent=2))
-            return response_json
+            print("GeminiService, break_down_information(): Parsed JSON response:", json.dumps(response_json, indent=2))
+            return response_json['data']
         except json.JSONDecodeError as e:
             print(f"Error parsing JSON: {e}")
             print("Original response:", response.text)
