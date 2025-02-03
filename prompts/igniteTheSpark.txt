@@ -10,7 +10,7 @@ Your task:
 
 Generate 5 to 10 personalized conversation starter questions. Each question should:
 
-Clearly reference small details from the most recent encounter.
+Clearly reference small details from the most recent encounter(friend_latest_entry).
 
 Show genuine care and interest in this friend's life.
 
@@ -22,11 +22,11 @@ Focus on having a meaningful catch-up or conversation.
 
 Exclude online video games (LAN gaming is fine).
 
-If there's not enough info, include general meetup ideas for men in their 20s, such as going to a bar, an escape room, or a trip to the beach, camping, hiking, road trips, a workout session, or LAN gaming, paintball, razr trip, clubbing.
+If there's not enough info, include general default meetup ideas for men in their 20s, such as going to a bar, an escape room, or a trip to the beach, camping, hiking, road trips, a workout session, LAN gaming, paintball, razr trip, clubbing, rock climbing, water sports, water parks, cooking together, etc.
 
-Must include a place or location for the meetup.
+The idea must also include a place or location for the meetup.
 
-Avoid local clubs or local events.
+Avoid local events or local clubs, as it's hard to time and we dont want to be dependable on local events.
 
 Return a valid JSON object with this format:
 

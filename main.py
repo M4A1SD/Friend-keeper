@@ -33,9 +33,27 @@ def main():
         friends = firebase_service.get_sorted_friends()
         if not friends:
             print("No friends found or could not fetch friends list.")
-        else:
-            print(friends)
+            exit()
+        
+        print("Select a friend:")
+        i=1
+        for friend, data in friends.items():
+            print(f"{i}. {friend}. last talk: {data['date']} \n")
+            i+=1
+        input_friend = input("Enter the number of the friend: ")
+        friend_name = list(friends.keys())[int(input_friend) - 1]
+        print(f"Selected friend: {friend_name}")
 
+        # get bio
+        bio = firebase_service.get_bio(friend_name)
+        # get all entries
+        entries = firebase_service.get_all_information(friend_name)
+
+        # get last entry
+        last_entry = friends.get(friend_name).get("data")
+        last_entry = " | ".join(last_entry)
+
+        print(f"my friend {friend_name}, bio: {bio}, last entry: {last_entry}. i want to meetup with him")
 
 
 

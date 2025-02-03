@@ -64,13 +64,17 @@ class FirebaseService:
             return None
     
     def get_bio(self, friend_name):
+        """
+        return string bio
+        "This friend was my friend in high school"
+        """
         try:
             friend_ref = self.db.collection("friends").document(friend_name)
 
             friend_doc = friend_ref.get()
             if friend_doc.exists:
                 friend_data = friend_doc.to_dict()
-                biography = friend_data.get("biography")
+                biography = friend_data.get("bio")
                 return biography
             else:
                 return None
@@ -80,11 +84,23 @@ class FirebaseService:
             return None
 
     def get_all_information(self, friend_name):
+        """
+        return all entires in this format
+
+        """
         try:
             friend_ref = self.db.collection("friends").document(friend_name)
             entries_ref = friend_ref.collection("entries")
             entries = entries_ref.stream()
-            return entries
+            entries_array = []
+            for entry in entries:
+                info = entry.to_dict()["data"]
+                
+                # Flatten the list and join with a separator
+                result = " | ".join(info)
+                
+                entries_array.append(result)
+            return entries_array
         except Exception as e:
             print("failed to get all information")
             print(e)
@@ -101,7 +117,7 @@ class FirebaseService:
             if latest_entries:
                 latest_doc = latest_entries[0]
                 # latest_doc.id is the human readable date
-                return {"date": latest_doc.id, "data": latest_doc.to_dict()}
+                return {"date": latest_doc.id, "data": latest_doc.to_dict()["data"]}
             else:
                 return None
 
@@ -124,16 +140,14 @@ class FirebaseService:
             friends_dict[friend] = last_entry_date
         """
         friends_dict = {
-            'benny' : {'date': '02-02-2025 20:48:26', 'data': {'timestamp': DatetimeWithNanoseconds(2025, 2, 2, 18, 48, 27, 913000, tzinfo=datetime.timezone.utc), 'data': [beny likes... , beny ...]}},
-            'lior' : {'date': '02-02-2025 20:48:26', 'data': {'timestamp': DatetimeWithNanoseconds(2025, 2, 2, 18, 48, 27, 913000, tzinfo=datetime.timezone.utc), 'data': [lior likes... , lior ...]}},
-            'niko' : {'date': '02-02-2025 20:48:26', 'data': {'timestamp': DatetimeWithNanoseconds(2025, 2, 2, 18, 48, 27, 913000, tzinfo=datetime.timezone.utc), 'data': [niko likes... , niko ...]}},
+            'benny' : {'date': '02-02-2025 20:48:26', 'data': [beny likes... , beny ...]}},
+            'lior' : {'date': '02-02-2025 20:48:26', 'data': [lior likes... , lior ...]}},
+            'niko' : {'date': '02-02-2025 20:48:26', 'data': [niko likes... , niko ...]}},
         }
         """
         sorted_data = dict(sorted(
             friends_dict.items(),
             key=lambda item: datetime.strptime(item[1]['date'], '%d-%m-%Y %H:%M:%S')
         ))
-        print("sorted_data", sorted_data)
-        for friend in sorted_data:
-            names_array.append(friend)
-        return names_array
+        
+        return sorted_data
