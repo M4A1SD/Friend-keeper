@@ -1,8 +1,12 @@
+from .firebase_service import FirebaseService
+
 class MenuService:
+    firebase_service = None
     def __init__(self):
+        self.firebase_service = FirebaseService()
         self.menu = ["1. I have new entry", "2. Im free for action", "3. Add new friend"]
-        self.friends = ["benny", "niko", "lior"]
-        # self.friends = firbase.get_all_friends()
+        # self.friends = ["benny", "niko", "lior"]
+        self.friends = self.firebase_service.get_all_friends()
 
     def display_menu(self):
         print(self.menu)

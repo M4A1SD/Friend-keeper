@@ -5,16 +5,27 @@ from datetime import datetime
 
 
 class FirebaseService:
-    db = None
+    _instance = None
+    _initialized = False
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(FirebaseService, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self):
-        try:
-            cred = credentials.Certificate("key.json")
-            firebase_admin.initialize_app(cred)
-            db = firestore.client()
-            self.db = db
-        except Exception as e:
-            print("couldnt connect to firebase")
-            print(e)
+        if not FirebaseService._initialized:
+            try:
+                # Initialize Firebase only if it hasn't been initialized
+                if not firebase_admin._apps:
+                    cred = credentials.Certificate('key.json')
+                    firebase_admin.initialize_app(cred)
+                
+                self.db = firestore.client()
+                FirebaseService._initialized = True
+            except Exception as e:
+                print(f"Firebase initialization error: {e}")
+                self.db = None
 
     def upload_information(self, friend_name, new_information):
         """

@@ -9,6 +9,12 @@ def main():
     menu_service = MenuService() # display information and interactoin
     prompts_dictionary = PromptService.load_prompt() # prompt engineering
     firebase_service = FirebaseService()
+
+    # Check if Firebase is properly initialized
+    if not firebase_service.db:
+        print("Error: Could not connect to Firebase. Please check your configuration.")
+        return
+
     # Main menu loop
     choice = menu_service.display_menu()
 
@@ -25,7 +31,10 @@ def main():
         # Im free for action
 
         friends = firebase_service.get_sorted_friends()
-        print(friends)
+        if not friends:
+            print("No friends found or could not fetch friends list.")
+        else:
+            print(friends)
 
 
 
