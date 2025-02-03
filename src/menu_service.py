@@ -32,4 +32,32 @@ class MenuService:
         if stop == "1":
             firebase_service.upload_information(friend_name, response_json)
         else:
-            print("not saved") 
+            print("not saved")
+
+    def handle_free_for_action(self, gemini_service):
+        friends = self.firebase_service.get_sorted_friends()
+        if not friends:
+            print("No friends found or could not fetch friends list.")
+            return
+        
+        print("Select a friend:")
+        for i, (friend, data) in enumerate(friends.items(), 1):
+            print(f"{i}. {friend}. last talk: {data['date']} \n")
+        
+        input_friend = input("Enter the number of the friend: ")
+        friend_name = list(friends.keys())[int(input_friend) - 1]
+        friend_data = {
+            "name": friend_name,
+            "data": friends.get(friend_name).get("data")
+        }
+        print(f"Selected friend: {friend_name}")
+
+        questions, meetup_ideas = gemini_service.ignite_the_spark(friend_data)
+        
+        print("\nFollow-up questions:")
+        for i, question in enumerate(questions, 1):
+            print(f"{i}. {question}")
+        
+        print("\n-------------------------\nMeetup ideas:")
+        for i, idea in enumerate(meetup_ideas, 1):
+            print(f"{i}. {idea}") 

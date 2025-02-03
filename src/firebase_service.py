@@ -151,3 +151,9 @@ class FirebaseService:
         ))
         
         return sorted_data
+    
+
+
+    def add_friend(self, friend_name, friend_bio):
+        self.db.collection("friends").document(friend_name).set({"bio": friend_bio})
+        return True

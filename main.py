@@ -21,47 +21,13 @@ def main():
     if choice == "1":
         menu_service.handle_new_entry(gemini_service, prompts_dictionary, firebase_service)
     elif choice == "2":
-        """
-        i can look up all my friends
-        the list is sorted by the last entry date
-        i can select a friend, lets say type the name
-        then i get 5 questions about recent entry-follow up
-        5 meetup ideas to propose.
-        """
-        # Im free for action
-
-        friends = firebase_service.get_sorted_friends()
-        if not friends:
-            print("No friends found or could not fetch friends list.")
-            exit()
-        
-        print("Select a friend:")
-        i=1
-        for friend, data in friends.items():
-            print(f"{i}. {friend}. last talk: {data['date']} \n")
-            i+=1
-        input_friend = input("Enter the number of the friend: ")
-        friend_name = list(friends.keys())[int(input_friend) - 1]
-        friend_data= {
-            "name": friend_name,
-            "data": friends.get(friend_name).get("data")
-        }
-        print(f"Selected friend: {friend_name}")
-
-
-        questions, meetup_ideas = gemini_service.ignite_the_spark(friend_data)
-        i=1
-        for question in questions:
-            print(f"{i}. {question}")
-            i+=1
-        i=1
-        print("\n-------------------------\n")
-        for idea in meetup_ideas:
-            print(f"{i}. {idea}")
-            i+=1
-
+        menu_service.handle_free_for_action(gemini_service)
     elif choice == "3":
         print("Add new friend")
+        name = input("Enter the name of the friend: ")
+        bio = input("Enter the bio of the friend: ")
+        firebase_service.add_friend(name, bio)
+
     else:
         print("Invalid choice")
 
