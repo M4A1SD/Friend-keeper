@@ -42,20 +42,23 @@ def main():
             i+=1
         input_friend = input("Enter the number of the friend: ")
         friend_name = list(friends.keys())[int(input_friend) - 1]
+        friend_data= {
+            "name": friend_name,
+            "data": friends.get(friend_name).get("data")
+        }
         print(f"Selected friend: {friend_name}")
 
-        # get bio
-        bio = firebase_service.get_bio(friend_name)
-        # get all entries
-        entries = firebase_service.get_all_information(friend_name)
 
-        # get last entry
-        last_entry = friends.get(friend_name).get("data")
-        last_entry = " | ".join(last_entry)
-
-        print(f"my friend {friend_name}, bio: {bio}, last entry: {last_entry}. i want to meetup with him")
-
-
+        questions, meetup_ideas = gemini_service.ignite_the_spark(friend_data)
+        i=1
+        for question in questions:
+            print(f"{i}. {question}")
+            i+=1
+        i=1
+        print("\n-------------------------\n")
+        for idea in meetup_ideas:
+            print(f"{i}. {idea}")
+            i+=1
 
     elif choice == "3":
         print("Add new friend")
