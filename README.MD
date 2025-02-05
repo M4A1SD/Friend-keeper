@@ -1,4 +1,4 @@
-#Blog
+# Blog
 https://arthur-blog.notion.site/Friend-tracker-19159c5397288033b0e8c21593b61e31
 
 # Project Setup Guide
