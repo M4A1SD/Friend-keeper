@@ -16,20 +16,27 @@ def main():
         return
 
     # Main menu loop
-    choice = menu_service.display_menu()
+    choice = "0"
 
-    if choice == "1":
-        menu_service.handle_new_entry(gemini_service, prompts_dictionary, firebase_service)
-    elif choice == "2":
-        menu_service.handle_free_for_action(gemini_service)
-    elif choice == "3":
-        print("Add new friend")
-        name = input("Enter the name of the friend: ")
-        bio = input("Enter the bio of the friend: ")
-        firebase_service.add_friend(name, bio)
-
-    else:
-        print("Invalid choice")
+    while choice != "4":
+        choice = menu_service.display_menu()
+        if choice == "1":
+            menu_service.handle_new_entry(gemini_service, prompts_dictionary, firebase_service)
+            continue
+        elif choice == "2":
+            menu_service.handle_free_for_action(gemini_service)
+            continue
+        elif choice == "3":
+            print("Add new friend")
+            name = input("Enter the name of the friend: ")
+            bio = input("Enter the bio of the friend: ")
+            firebase_service.add_friend(name, bio)
+            continue
+        elif choice == "4":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice") 
 
 if __name__ == "__main__":
     main()

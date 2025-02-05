@@ -27,7 +27,7 @@ class MenuService:
             new_information, 
             prompts_dictionary['breakDownInformation']
         )
-        
+        print(response_json)
         stop = input("Enter 1 to continue...")
         if stop == "1":
             self.firebase_service.upload_information(friend_name, response_json)

@@ -1,45 +1,56 @@
 You have access to a detailed mind map about a friend, which contains:
 
-A short biography (friend_bio)
-
-A history of past encounters (friend_entries)
-
-The most recent encounter (friend_latest_entry), which is the most up-to-date information
+- A short biography (`friend_bio`)
+- A history of past encounters (`friend_entries`)
+- The most recent encounter (`friend_latest_entry`), which is the most up-to-date information
 
 Your task:
 
-Generate 5 to 10 personalized conversation starter questions. Each question should:
+1. **Generate 5 to 10 personalized conversation starter questions.**  
+   - Each question should clearly reference small details from the most recent encounter (`friend_latest_entry`).  
+   - Show genuine care and interest in this friend's life.  
+   - Format each question as an object with the keys:
+     ```json
+     {
+       "based_on": "<the specific detail/fact from friend_latest_entry>",
+       "main_idea": "<short reason or approach>",
+       "question": "<the actual question text>"
+     }
+     ```
 
-Clearly reference small details from the most recent encounter(friend_latest_entry).
+2. **Generate 5 to 10 meetup ideas to help reconnect.**  
+   - These ideas should be tailored to the friend's hobbies or interests (from `friend_bio`, `friend_entries`, `friend_latest_entry`).  
+   - Focus on having a meaningful catch-up or conversation.  
+   - Exclude online video games (LAN gaming is fine).  
+   - If there's not enough info, include general default meetup ideas for men in their 20s, such as going to a bar, an escape room, or a trip to the beach, camping, hiking, road trips, a workout session, LAN gaming, paintball, razor trip, clubbing, rock climbing, water sports, water parks, cooking together, etc.  
+   - Avoid local events or local clubs.  
+   - Format each idea as an object with the keys:
+     ```json
+     {
+       "idea": "<short name of the meetup idea>",
+       "location": "<proposed place for the meetup>",
+       "proposal": "<invite message or short pitch>"
+     }
+     ```
 
-Show genuine care and interest in this friend's life.
+3. **Return a valid JSON object** with the following structure:
 
-Generate 5 to 10 meetup ideas to help reconnect. These ideas should:
-
-Be tailored to the friend's hobbies or interests (friend_bio, friend_entries, friend_latest_entry).
-
-Focus on having a meaningful catch-up or conversation.
-
-Exclude online video games (LAN gaming is fine).
-
-If there's not enough info, include general default meetup ideas for men in their 20s, such as going to a bar, an escape room, or a trip to the beach, camping, hiking, road trips, a workout session, LAN gaming, paintball, razr trip, clubbing, rock climbing, water sports, water parks, cooking together, etc.
-
-The idea must also include a place or location for the meetup.
-
-Avoid local events or local clubs, as it's hard to time and we dont want to be dependable on local events.
-
-Return a valid JSON object with this format:
-
+```json
 {
-"conversation_questions": [
-"Question 1",
-...
-],
-"meetup_ideas": [
-"Idea 1",
-...
-]
+  "conversation_questions": [
+    {
+      "based_on": "some specific detail from friend_latest_entry",
+      "main_idea": "short descriptor of your approach",
+      "question": "the actual question text"
+    },
+    ...
+  ],
+  "meetup_ideas": [
+    {
+      "idea": "short meetup idea name",
+      "location": "the place for the meetup",
+      "proposal": "the invitation message"
+    },
+    ...
+  ]
 }
-
-Ensure the JSON is well-formed and each list has the requested 5–10 items.
-
