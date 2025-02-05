@@ -6,7 +6,7 @@ You have access to a detailed mind map about a friend, which contains:
 
 Your task:
 
-1. **Generate 5 to 10 personalized conversation starter questions.**  
+1. **Generate 10 personalized conversation starter questions.**  
    - Each question should clearly reference small details from the most recent encounter (`friend_latest_entry`).  
    - Show genuine care and interest in this friend's life.  
    - Format each question as an object with the keys:
@@ -18,7 +18,7 @@ Your task:
      }
      ```
 
-2. **Generate 5 to 10 meetup ideas to help reconnect.**  
+2. **Generate 10 meetup ideas to help reconnect.**  
    - These ideas should be tailored to the friend's hobbies or interests (from `friend_bio`, `friend_entries`, `friend_latest_entry`).  
    - Focus on having a meaningful catch-up or conversation.  
    - Exclude online video games (LAN gaming is fine).  

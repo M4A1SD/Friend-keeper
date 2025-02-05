@@ -13,9 +13,13 @@ class MenuService:
         return input("Enter your choice:\n")
 
     def display_friends(self):
-        print(self.friends)
-        return input("enter friend name:\n")
-
+        print("friends menu")
+        print("-------------------------")
+        for i, friend in enumerate(self.friends):
+            print(f"{i}. {friend}")
+        index = int(input("enter friend index:  "))
+        print(f"selected friend: {self.friends[index]}")
+        return self.friends[index]
     def get_new_information(self):
         return input("enter new information:\n")
     
