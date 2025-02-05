@@ -36,7 +36,8 @@ class GeminiService:
 
     def break_down_information(self, information, prompt_template):
         prompt = f"Rules:{prompt_template}\nInput:{information}"
-        response = self.model.generate_content(prompt)
+        response = self.generate_response(prompt)
+        return response['data']
         
         
         

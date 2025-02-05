@@ -30,7 +30,7 @@ class MenuService:
         
         stop = input("Enter 1 to continue...")
         if stop == "1":
-            firebase_service.upload_information(friend_name, response_json)
+            self.firebase_service.upload_information(friend_name, response_json)
         else:
             print("not saved")
 
