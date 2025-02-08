@@ -48,8 +48,18 @@ class MenuService:
         for i, (friend, data) in enumerate(friends.items(), 1):
             print(f"{i}. {friend}. last talk: {data['date']} \n")
         
-        input_friend = input("Enter the number of the friend: ")
-        friend_name = list(friends.keys())[int(input_friend) - 1]
+        while True:
+            input_friend = input("Enter the number of the friend: ")
+            try:
+                input_friend = int(input_friend)
+                if 0 < input_friend <= len(friends):
+                    break
+                else:
+                    print(f"Please enter a number between 1 and {len(friends)}")
+            except ValueError:
+                print("Please enter a valid number")
+
+        friend_name = list(friends.keys())[input_friend - 1]
         friend_data = {
             "name": friend_name,
             "data": friends.get(friend_name).get("data")

@@ -136,8 +136,17 @@ class FirebaseService:
         friends_dict = {}
         friends = self.get_all_friends()
         for friend in friends:
-            last_entry_date = self.get_when_last_talked(friend)
-            friends_dict[friend] = last_entry_date
+            try:
+                last_entry_date = self.get_when_last_talked(friend)
+                friends_dict[friend] = last_entry_date
+                if last_entry_date is None:
+                    friends_dict[friend] = {'date': '01-01-1970 00:00:00', 'data': ['no data']}
+            except Exception as e:
+                print("failed to get when last talked")
+                print(e)
+                continue
+
+
         """
         friends_dict = {
             'benny' : {'date': '02-02-2025 20:48:26', 'data': [beny likes... , beny ...]}},
