@@ -7,7 +7,7 @@ You have access to a detailed mind map about a friend, which contains:
 Your task:
 
 1. **Generate 10 personalized conversation starter questions.**  
-   - Each question should clearly reference small details from the most recent encounter (`friend_latest_entry`).  
+   - Each question should clearly reference details from the most recent encounter (`friend_latest_entry`). 6 from the friend_latest_entry and 4 from the friend_entries.
    - Show genuine care and interest in this friend's life.  
    - Format each question as an object with the keys:
      ```json

@@ -30,20 +30,22 @@ class FirebaseService:
     def upload_information(self, friend_name, new_information):
         """
         friends -> friend_name -> Entries -> current_date -> {data: new_information, timestamp: firestore.SERVER_TIMESTAMP}
-
         """
         try:
             current_date = "" + TimeService.get_current_time()
-
-            print(f" firebase_service, upload_information(): uploading to firebase: {friend_name}->{current_date}-> (data: {new_information} , timestamp: {firestore.SERVER_TIMESTAMP})")
+            
+            # print(f" firebase_service, upload_information(): uploading to firebase: {friend_name}->{current_date}-> (data: {new_information} , timestamp: {firestore.SERVER_TIMESTAMP})")
             doc_ref = self.db.collection("friends").document(friend_name).collection("entries").document(current_date)
+            
+            # Use set with merge=True so that if the document doesn't exist it is created,
+            # or if it exists, only the specified fields are updated.
             doc_ref.set({
-                "data": new_information,
+                "data": firestore.ArrayUnion(new_information),
                 "timestamp": firestore.SERVER_TIMESTAMP
-            })
+            }, merge=True)
             return True
         except Exception as e:
-            print("failed to upload to firevbase")
+            print("firbase_service, upload_information(): failed to upload to firebase")
             print(e)
             return False
 
@@ -140,7 +142,7 @@ class FirebaseService:
                 last_entry_date = self.get_when_last_talked(friend)
                 friends_dict[friend] = last_entry_date
                 if last_entry_date is None:
-                    friends_dict[friend] = {'date': '01-01-1970 00:00:00', 'data': ['no data']}
+                    friends_dict[friend] = {'date': '01-01-1970', 'data': ['no data']}
             except Exception as e:
                 print("failed to get when last talked")
                 print(e)
@@ -149,14 +151,18 @@ class FirebaseService:
 
         """
         friends_dict = {
-            'benny' : {'date': '02-02-2025 20:48:26', 'data': [beny likes... , beny ...]}},
-            'lior' : {'date': '02-02-2025 20:48:26', 'data': [lior likes... , lior ...]}},
-            'niko' : {'date': '02-02-2025 20:48:26', 'data': [niko likes... , niko ...]}},
+            'benny' : {'date': '02-02-2025', 'data': [beny likes... , beny ...]}},
+            'lior' : {'date': '02-02-2025', 'data': [lior likes... , lior ...]}},
+            'niko' : {'date': '02-02-2025', 'data': [niko likes... , niko ...]}},
         }
         """
+
         sorted_data = dict(sorted(
             friends_dict.items(),
-            key=lambda item: datetime.strptime(item[1]['date'], '%d-%m-%Y %H:%M:%S')
+            key=lambda item: datetime.strptime(
+                item[1]['date'].split()[0] if len(item[1]['date']) > 10 else item[1]['date'], 
+                '%d-%m-%Y'
+            )
         ))
         
         return sorted_data

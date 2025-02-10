@@ -31,12 +31,17 @@ class MenuService:
             new_information, 
             prompts_dictionary['breakDownInformation']
         )
+        print("heres the summary : \n")
         print(response_json)
-        stop = input("Enter 1 to continue...")
+        stop = input("Enter 1 to confirm upload...")
         if stop == "1":
-            self.firebase_service.upload_information(friend_name, response_json)
+
+            success = self.firebase_service.upload_information(friend_name, response_json)
+            if success:
+                print("Successfully uploaded information to Firebase.\n")
         else:
-            print("not saved")
+            print("NOT SAVED\n")
+
 
     def handle_free_for_action(self, gemini_service):
         friends = self.firebase_service.get_sorted_friends()
